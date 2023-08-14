@@ -6,7 +6,7 @@ pipeline {
     stages{
         stage ('clone') {
             steps {
-                git branch: 'main', credentialsId: 'github_creds', url: 'https://github.com/cloudniharikagit1/spring-petclinic.git'
+                git branch: 'main', url: 'https://github.com/cloudniharikagit1/spring-petclinic.git'
             }
         }
         stage ('build')
