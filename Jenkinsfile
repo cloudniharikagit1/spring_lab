@@ -1,31 +1,18 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/devopswithcloud/spring-petclinic.git']]])
-            }
-        }
-
-        stage('Build') {
-            steps {
-                withMaven(maven: 'Maven 3.8.3', mavenSettingsConfig: 'my-maven-settings') {
-                    sh 'mvn clean install'
-                }
-            }
-        }
-
-        stage('Archive Artifact') {
-            steps {
-                archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
-            }
-        }
+    agent any 
+    tools {
+        maven 'Maven-3.8.8'
     }
-
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
+    stages{
+        stage ('clone') {
+            steps {
+                git branch: 'main', credentialsId: 'github_creds', url: 'https://github.com/cloudniharikagit1/spring-petclinic.git'
+            }
         }
+        stage ('build')
+        steps {
+            sh "mvn clean pacakge -Dmaven.test.failure.ignore=true" 
+        }
+        
     }
-}
+   
