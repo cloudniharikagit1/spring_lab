@@ -11,7 +11,6 @@ pipeline {
         }
         stage ('build')
         steps {
-            sh "mvn --version"
             sh "mvn clean pacakge -Dmaven.test.failure.ignore=true" 
         }
         
